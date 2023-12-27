@@ -12,7 +12,7 @@ const siteMetadata = {
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
   // mastodon: 'https://mastodon.social/@mastodonuser',
-  email: 'contact@rareyes.dev',
+  // email: 'contact@rareyes.dev',
   github: 'https://github.com/rareyesdev',
   // twitter: 'https://twitter.com/Twitter',
   // facebook: 'https://facebook.com',
