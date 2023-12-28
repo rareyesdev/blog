@@ -1,8 +1,17 @@
+import { FC } from 'react'
 import { Badge } from './Badge'
 import Image from './Image'
 import Link from './Link'
 
-const Card = ({ title, description, imgSrc, href, badges }) => (
+type CardsProps = {
+  title: string
+  description: string
+  imgSrc?: string
+  href?: string
+  badges?: string[]
+}
+
+const Card: FC<CardsProps> = ({ title, description, imgSrc, href, badges }) => (
   <div className="md max-w-[544px] p-4 md:w-1/2">
     <div
       className={`${

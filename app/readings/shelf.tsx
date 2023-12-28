@@ -2,6 +2,7 @@ import React, { FC, useMemo } from 'react'
 import { MedalIcon } from './medal-icon'
 import { BookIcon } from './book-icon'
 import Link from '../../components/Link'
+import { ReadingData } from '../domain/book'
 
 const colors = {
   platinum: '#ffffff',
@@ -11,11 +12,14 @@ const colors = {
 }
 
 type ShelfProps = {
-  favoriteReadingsData: any
+  favoriteReadingsData: ReadingData
 }
 
 export const Shelf: FC<ShelfProps> = ({ favoriteReadingsData }) => {
-  const rowNames = useMemo(() => Object.keys(favoriteReadingsData), [favoriteReadingsData])
+  const rowNames = useMemo(
+    () => Object.keys(favoriteReadingsData) as (keyof ReadingData)[],
+    [favoriteReadingsData]
+  )
 
   return (
     <div className="space-y-12">

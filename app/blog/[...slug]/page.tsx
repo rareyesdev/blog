@@ -13,11 +13,23 @@ import PostBanner from '@/layouts/PostBanner'
 import { Metadata } from 'next'
 import siteMetadata from '@/data/siteMetadata'
 
-const defaultLayout = 'PostLayout'
 const layouts = {
   PostSimple,
   PostLayout,
   PostBanner,
+}
+
+type LayoutMap = typeof layouts
+type LayoutKeys = keyof LayoutMap
+
+const getLayoutWithFallback = (layout: string | undefined): LayoutMap[LayoutKeys] => {
+  if (!layout) {
+    return PostLayout
+  }
+  if (layout in layouts) {
+    return layouts[layout as keyof typeof layouts]
+  }
+  throw new Error(`Invalid layout: ${layout}`)
 }
 
 export async function generateMetadata({
@@ -114,7 +126,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
     }
   })
 
-  const Layout = layouts[post.layout || defaultLayout]
+  const Layout = getLayoutWithFallback(post.layout)
 
   return (
     <>
