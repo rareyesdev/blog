@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from 'react'
-import { joinClasses } from '../../utils/join-classes'
 import { MedalIcon } from './medal-icon'
 import { BookIcon } from './book-icon'
 import Link from '../../components/Link'
@@ -19,7 +18,7 @@ export const Shelf: FC<ShelfProps> = ({ favoriteReadingsData }) => {
   const rowNames = useMemo(() => Object.keys(favoriteReadingsData), [favoriteReadingsData])
 
   return (
-    <div>
+    <div className="space-y-12">
       {rowNames.map((rowName) => (
         <ShelfRow key={rowName} readings={favoriteReadingsData[rowName]} color={colors[rowName]} />
       ))}
@@ -39,7 +38,7 @@ type ShelfRowProps = {
 
 const ShelfRow: FC<ShelfRowProps> = ({ color, readings }) => {
   return (
-    <div className="my-12 md:flex md:items-center">
+    <div className="md:flex md:items-center">
       <MedalIcon className="h-14 mb-4 mx-auto md:m-0 md:mr-10" style={{ color }} />
       <ul className="m-0 p-0 list-none">
         {readings.map((reading) => {

@@ -12,9 +12,8 @@ export default function Page() {
           Favorite Readings
         </h1>
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          This is a list of my favorite readings (most are books with a few exceptions). It is
-          organized in platinum, gold, silver and bronze. I don't put every book that I read, only
-          the best ones make it.
+          This is a list of my favorite readings. I don't put every book that I read, only the best
+          ones make it.
         </p>
       </div>
       <div className="container py-12">
