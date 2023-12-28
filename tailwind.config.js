@@ -28,6 +28,7 @@ module.exports = {
         primary: colors.violet,
         gray: colors.gray,
       },
+      // @ts-expect-error TODO find a way to define this type
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {

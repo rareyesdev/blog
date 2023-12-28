@@ -8,7 +8,9 @@ import CustomLink from './Link'
 export const components: MDXComponents = {
   Image,
   TOCInline,
+  // @ts-expect-error Anchors have optional href but CustomLink requires it.
   a: CustomLink,
+  // @ts-expect-error Anchors have optional children but Pre requires it.
   pre: Pre,
   BlogNewsletterForm,
 }
