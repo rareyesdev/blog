@@ -1,7 +1,8 @@
+import { Badge } from './Badge'
 import Image from './Image'
 import Link from './Link'
 
-const Card = ({ title, description, imgSrc, href }) => (
+const Card = ({ title, description, imgSrc, href, badges }) => (
   <div className="md max-w-[544px] p-4 md:w-1/2">
     <div
       className={`${
@@ -39,6 +40,13 @@ const Card = ({ title, description, imgSrc, href }) => (
           )}
         </h2>
         <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
+        {badges && (
+          <div className="mb-3 flex flex-wrap gap-y-2">
+            {badges.map((badge) => (
+              <Badge key={badge}>{badge}</Badge>
+            ))}
+          </div>
+        )}
         {href && (
           <Link
             href={href}

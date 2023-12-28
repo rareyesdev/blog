@@ -15,15 +15,7 @@ const CustomLink = ({ href, ...rest }: LinkProps & AnchorHTMLAttributes<HTMLAnch
     return <a href={href} {...rest} />
   }
 
-  return (
-    <a
-      className="underline text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-      target="_blank"
-      rel="noopener noreferrer"
-      href={href}
-      {...rest}
-    />
-  )
+  return <a className="underline" target="_blank" rel="noopener noreferrer" href={href} {...rest} />
 }
 
 export default CustomLink
