@@ -80,6 +80,38 @@ const featuredQuotesData = [
     quote: 'The things you own end up owning you',
     author: 'Tyler Durden, Fight Club',
   },
+  {
+    quote:
+      'Attack the evil that is withing yourself, rather than attacking the evil that is in others',
+  },
+  {
+    quote:
+      'Watch your thoughts, they become words; watch your words, they become actions; watch your actions, they become habits; watch your habits, they become your character; watch your character, for it becomes your destiny',
+  },
+  {
+    quote: 'If you are the smartest person in the room, then you are in the wrong room',
+  },
+  {
+    quote: 'If you hate, then you have been defeated',
+  },
+  {
+    quote:
+      'When you see a good person, think of becoming like him. When you see someone not so good, reflect on your own weak points',
+  },
+  {
+    quote: 'We have two lives, and the second begins when we realize we only have one',
+  },
+  {
+    quote:
+      'If you are depressed, you are living in the past. If you are anxious, you are living in the future. If you are at peace, you are living in the present',
+  },
+  {
+    quote:
+      'The line separating good and evil passes not through states, nor between classes, nor between political parties either - but right through every human heart',
+  },
+  {
+    quote: 'Anyone who can make you believe absurdities can make you commit atrocities',
+  },
 ]
 
 export default featuredQuotesData
