@@ -7,7 +7,7 @@ const siteMetadata = {
   // description: 'A blog created with Next.js and Tailwind.css',
   language: 'en-us',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://rareyes.dev',
+  siteUrl: 'https://www.rareyes.dev',
   siteRepo: 'https://github.com/rareyesdev/blog',
   siteLogo: '/static/images/logo.png',
   socialBanner: '/static/images/twitter-card.png',
