@@ -3,8 +3,7 @@ const siteMetadata = {
   title: 'rareyes.dev',
   author: 'Ramon Alejandro',
   headerTitle: 'rareyes',
-  // Replaced this metadata with a featured quote.
-  // description: 'A blog created with Next.js and Tailwind.css',
+  description: 'A blog about software development and other things I find interesting',
   language: 'en-us',
   theme: 'system', // system, dark or light
   siteUrl: 'https://www.rareyes.dev',
