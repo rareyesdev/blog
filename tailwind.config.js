@@ -55,12 +55,6 @@ module.exports = {
                 borderBottom: `1px solid ${theme('colors.light-foreground.DEFAULT')}`,
               },
             },
-            h1: {
-              color: theme('colors.light-foreground.deeper'),
-            },
-            'h2,h3,h4,h5,h6': {
-              color: theme('colors.light-foreground.deep'),
-            },
             code: {
               color: theme('colors.light-foreground.deep'),
             },
@@ -75,12 +69,6 @@ module.exports = {
               '&:hover': {
                 borderBottom: `1px solid ${theme('colors.dark-foreground.DEFAULT')}`,
               },
-            },
-            h1: {
-              color: theme('colors.dark-foreground.deeper'),
-            },
-            'h2,h3,h4,h5,h6': {
-              color: theme('colors.dark-foreground.deep'),
             },
             code: {
               color: theme('colors.dark-foreground.deep'),

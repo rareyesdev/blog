@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-light-foreground-deeper dark:text-dark-foreground-deeper;
+  }
+  h2, h3, h4, h5, h6 {
+    @apply text-light-foreground-deep dark:text-dark-foreground-deep;
+  }
+}
+
 .task-list-item::before {
   @apply hidden;
 }
