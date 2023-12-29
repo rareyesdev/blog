@@ -25,8 +25,8 @@ jobs:
       - name: Check linting rules
         run: yarn lint
 
-      - name: Check types
-        run: yarn typecheck
-
       - name: Build
         run: yarn build
+
+      - name: Check types
+        run: yarn typecheck
