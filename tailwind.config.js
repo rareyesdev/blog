@@ -46,7 +46,6 @@ module.exports = {
         DEFAULT: {
           css: {
             '--tw-prose-body': theme('colors.light-foreground.DEFAULT'),
-            '--tw-prose-headings': theme('colors.light-foreground.deep'),
             a: {
               color: theme('colors.light-foreground.deeper'),
               textDecoration: 'none',
@@ -56,6 +55,12 @@ module.exports = {
                 borderBottom: `1px solid ${theme('colors.light-foreground.DEFAULT')}`,
               },
             },
+            h1: {
+              color: theme('colors.light-foreground.deeper'),
+            },
+            'h2,h3,h4,h5,h6': {
+              color: theme('colors.light-foreground.deep'),
+            },
             code: {
               color: theme('colors.light-foreground.deep'),
             },
@@ -64,13 +69,18 @@ module.exports = {
         invert: {
           css: {
             '--tw-prose-body': theme('colors.dark-foreground.DEFAULT'),
-            '--tw-prose-headings': theme('colors.dark-foreground.deep'),
             '--tw-prose-pre-bg': '#0e0e0e',
             a: {
               color: theme('colors.dark-foreground.deeper'),
               '&:hover': {
                 borderBottom: `1px solid ${theme('colors.dark-foreground.DEFAULT')}`,
               },
+            },
+            h1: {
+              color: theme('colors.dark-foreground.deeper'),
+            },
+            'h2,h3,h4,h5,h6': {
+              color: theme('colors.dark-foreground.deep'),
             },
             code: {
               color: theme('colors.dark-foreground.deep'),
