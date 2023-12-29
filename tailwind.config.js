@@ -65,6 +65,7 @@ module.exports = {
           css: {
             '--tw-prose-body': theme('colors.dark-foreground.DEFAULT'),
             '--tw-prose-headings': theme('colors.dark-foreground.deep'),
+            '--tw-prose-pre-bg': '#0e0e0e',
             a: {
               color: theme('colors.dark-foreground.deeper'),
               '&:hover': {
