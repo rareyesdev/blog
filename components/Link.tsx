@@ -15,7 +15,7 @@ const CustomLink = ({ href, ...rest }: AnchorHTMLAttributes<HTMLAnchorElement> &
     return <a href={href} {...rest} />
   }
 
-  return <a className="underline" target="_blank" rel="noopener noreferrer" href={href} {...rest} />
+  return <a target="_blank" rel="noopener noreferrer" href={href} {...rest} />
 }
 
 export default CustomLink
