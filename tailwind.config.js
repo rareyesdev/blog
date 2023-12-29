@@ -27,11 +27,23 @@ module.exports = {
       colors: {
         primary: colors.violet,
         gray: colors.gray,
+        'dark-background': '#050505',
+        'light-foreground': {
+          DEFAULT: '#555',
+          deep: '#222',
+          deeper: '#000',
+        },
+        'dark-foreground': {
+          DEFAULT: '#bbb',
+          deep: '#ddd',
+          deeper: '#fff',
+        },
       },
       // @ts-expect-error TODO find a way to define this type
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
+            '--tw-prose-body': theme('colors.light-foreground.DEFAULT'),
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
@@ -53,6 +65,7 @@ module.exports = {
         },
         invert: {
           css: {
+            '--tw-prose-body': theme('colors.dark-foreground.DEFAULT'),
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
