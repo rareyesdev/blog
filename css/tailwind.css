@@ -9,6 +9,32 @@
   h2, h3, h4, h5, h6 {
     @apply text-light-foreground-deep dark:text-dark-foreground-deep;
   }
+  a {
+    @apply no-underline text-light-foreground-deeper dark:text-dark-foreground-deeper;
+  }
+}
+
+@layer components {
+  .link-underlined {
+    border-bottom: 1px solid #7d7d7d4d;
+    transition: border-bottom .3s ease-in-out;
+  }
+  .link-underlined:hover {
+    border-bottom: 1px solid theme('colors.light-foreground.DEFAULT');
+  }
+  .dark .link-underlined:hover {
+    border-bottom: 1px solid theme('colors.dark-foreground.DEFAULT');
+  }
+
+  .link-highlighted {
+    transition: color .3s ease-in-out;
+  }
+  .link-highlighted:hover {
+    color: theme('colors.primary.800');
+  }
+  .dark .link-highlighted:hover {
+    color: theme('colors.primary.400');
+  }
 }
 
 .task-list-item::before {

@@ -47,7 +47,6 @@ module.exports = {
           css: {
             '--tw-prose-body': theme('colors.light-foreground.DEFAULT'),
             a: {
-              color: theme('colors.light-foreground.deeper'),
               textDecoration: 'none',
               borderBottom: '1px solid #7d7d7d4d',
               transition: 'border-bottom .3s ease-in-out',
@@ -65,7 +64,6 @@ module.exports = {
             '--tw-prose-body': theme('colors.dark-foreground.DEFAULT'),
             '--tw-prose-pre-bg': '#0e0e0e',
             a: {
-              color: theme('colors.dark-foreground.deeper'),
               '&:hover': {
                 borderBottom: `1px solid ${theme('colors.dark-foreground.DEFAULT')}`,
               },

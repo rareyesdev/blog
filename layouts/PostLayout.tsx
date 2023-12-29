@@ -78,10 +78,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                           <>
                             <dt className="sr-only">Twitter</dt>
                             <dd>
-                              <Link
-                                href={author.twitter}
-                                className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                              >
+                              <Link href={author.twitter} className="link-highlighted">
                                 {author.twitter.replace('https://twitter.com/', '@')}
                               </Link>
                             </dd>
@@ -128,16 +125,20 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     {prev && prev.path && (
                       <div>
                         <h2 className="text-xs uppercase tracking-wide">Previous Article</h2>
-                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${prev.path}`}>{prev.title}</Link>
+                        <div>
+                          <Link href={`/${prev.path}`} className="link-highlighted">
+                            {prev.title}
+                          </Link>
                         </div>
                       </div>
                     )}
                     {next && next.path && (
                       <div>
                         <h2 className="text-xs uppercase tracking-wide">Next Article</h2>
-                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
-                          <Link href={`/${next.path}`}>{next.title}</Link>
+                        <div>
+                          <Link href={`/${next.path}`} className="link-highlighted">
+                            {next.title}
+                          </Link>
                         </div>
                       </div>
                     )}
@@ -147,7 +148,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <div className="pt-4 xl:pt-8">
                 <Link
                   href={`/${basePath}`}
-                  className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                  className="link-highlighted"
                   aria-label="Back to the blog"
                 >
                   &larr; Back to the blog
