@@ -1,0 +1,116 @@
+---
+title: "You don't need enums"
+date: '2022-06-21'
+tags: ['typescript', 'flow']
+draft: true
+summary: In many scenarios string literals + unions are a better way to define a set of values.
+---
+
+Enums are available in both Flow and TypeScript. Codebases may also use other tools such as [keymirror](https://www.npmjs.com/package/keymirror).
+
+Issues with keymirror:
+
+- More verbose than using string literals.
+- No type definitions (unless you also install its types package).
+
+In both type systems, using enums has several [drawbacks](https://flow.org/en/docs/enums/using-enums/#toc-when-to-not-use-enums).
+
+One common use case for enums is to define a set of values that can be used in an API surface. Think of variants in a button component or the possible event types.
+
+Consider an enum for a log level:
+
+1. Enum
+  ```ts
+  enum LogLevel {
+    INFO = "INFO",
+    WARNING = "WARNING",
+    ERROR = "ERROR",
+  }
+  ```
+
+Some other alternatives are:
+
+2. keyMirror
+  ```ts
+  const LogLevel = keyMirror({
+    INFO: null,
+    WARNING: null,
+    ERROR: null,
+  });
+  ```
+3. Regular object
+  ```ts
+  const LogLevel = Object.freeze({
+    INFO: "INFO",
+    WARNING: "WARNING",
+    ERROR: "ERROR",
+  });
+  ```
+  > `Object.freeze` is used to get a const type back (ie: we get `INFO` instead of `string`).
+4. String literals + unions
+  ```ts
+  type LogLevel = "INFO" | "WARNING" | "ERROR";
+  ```
+
+Things that options 1, 2, and 3 have in common:
+- The `LogLevel` symbol must be in scope to be used.
+- It won't automatically give you a type for the possible values. When the property is typed as a string we are missing an opportunity to use the type system to catch bugs.
+- Options 1 and 3 are prone to mismatches between keys and values.
+
+```ts
+import { LogLevel } from "./...";
+
+// ❌ weak typing
+const log = (logLevel: string) => ...
+
+// somewhere else
+log(LogLevel.INFO);
+log('foo');
+```
+
+In order to improve this we would have to define a type for the possible values:
+
+```ts
+type LogLevelT = (typeof LogLevel)[keyof typeof LogLevel];
+```
+
+and use it everywhere:
+
+```ts
+import { LogLevel, LogLevelT } from "./...";
+
+// ✅ correct typing
+const log = (logLevel: LogLevelT) => ...
+
+// now this is redundant because TypeScript won't let you pass anything else
+log(LogLevel.INFO);
+
+// now this will fail
+log('foo');
+```
+
+But why do all those extra steps when we can just use string literals + unions? By using option 4 we get the following benefits:
+- The `LogLevel` type is only needed when typing the property but it does not have to be in scope on the call site.
+- We define the set of possible values only once in a single type (there is only one symbol to keep in mind).
+- It's less likely that the property will be typed as `string` because there is a type for it.
+- Autocomplete works as expected.
+
+One additional benefit of using string literals + unions is that it's easier to iterate over the possible values. When needed we can express the set of values like so:
+
+```ts
+const LogLevels = [
+    "INFO",
+    "WARNING",
+    "ERROR",
+] as const;
+type LogLevel = typeof LogLevels[number];
+```
+
+This prevents us from having to use `Object.keys` or `Object.values` which are prone to errors.
+
+## References
+
+- [String Literal Types in TypeScript](https://mariusschulz.com/blog/string-literal-types-in-typescript)
+- [TypeScript feature to avoid](https://www.executeprogram.com/blog/typescript-features-to-avoid)
+- [Enums considered harmful](https://www.youtube.com/watch?v=jjMbPt_H3RQ)
+- [Anders Hejlsberg talks about enums](https://www.youtube.com/watch?v=vBJF0cJ_3G0&t=1012s)
