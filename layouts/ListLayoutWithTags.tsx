@@ -79,7 +79,7 @@ export default function ListLayoutWithTags({
     <>
       <div>
         <div className="pb-6 pt-6">
-          <h1 className="sm:hidden text-3xl font-bold leading-9 text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+          <h1 className="sm:hidden text-3xl font-bold leading-9 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             {title}
           </h1>
         </div>
@@ -135,9 +135,7 @@ export default function ListLayoutWithTags({
                       <div className="space-y-3">
                         <div>
                           <h2 className="text-2xl font-bold leading-8">
-                            <Link href={`/${path}`} className="text-gray-900 dark:text-gray-100">
-                              {title}
-                            </Link>
+                            <Link href={`/${path}`}>{title}</Link>
                           </h2>
                           <div className="flex flex-wrap">
                             {tags?.map((tag) => <Tag key={tag} text={tag} />)}

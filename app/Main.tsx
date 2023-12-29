@@ -19,7 +19,7 @@ export default function Home({ posts }: HomeProps) {
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
         <div className="space-y-2 pb-8 pt-6 md:space-y-5">
-          <h1 className="text-3xl font-bold leading-9 text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
+          <h1 className="text-3xl font-bold leading-9 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest
           </h1>
           <FeaturedQuote featuredQuotesData={featuredQuotesData} />
@@ -42,12 +42,7 @@ export default function Home({ posts }: HomeProps) {
                       <div className="space-y-6">
                         <div>
                           <h2 className="text-2xl font-bold leading-8">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
-                              {title}
-                            </Link>
+                            <Link href={`/blog/${slug}`}>{title}</Link>
                           </h2>
                           <div className="flex flex-wrap">
                             {tags.map((tag) => (
@@ -62,7 +57,7 @@ export default function Home({ posts }: HomeProps) {
                       <div className="text-base font-medium leading-6">
                         <Link
                           href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                          className="link-highlighted"
                           aria-label={`Read "${title}"`}
                         >
                           Read more &rarr;
@@ -78,11 +73,7 @@ export default function Home({ posts }: HomeProps) {
       </div>
       {posts.length > MAX_DISPLAY && (
         <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="All posts"
-          >
+          <Link href="/blog" className="link-highlighted" aria-label="All posts">
             All Posts &rarr;
           </Link>
         </div>
