@@ -46,7 +46,8 @@ Some other alternatives are:
     ERROR: "ERROR",
   });
   ```
-  > `Object.freeze` is used to get a const type back (ie: we get `INFO` instead of `string`).
+  `Object.freeze` is used to get a const type back (ie: we get `INFO` instead of `string`).
+
 4. String literals + unions
   ```ts
   type LogLevel = "INFO" | "WARNING" | "ERROR";

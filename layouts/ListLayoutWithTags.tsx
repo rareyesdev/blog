@@ -107,7 +107,7 @@ export default function ListLayoutWithTags({
                       ) : (
                         <Link
                           href={`/tags/${slug(t)}`}
-                          className="py-2 px-3 uppercase text-sm font-medium text-gray-500 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-500"
+                          className="link-highlighted py-2 px-3 uppercase text-sm font-medium"
                           aria-label={`View posts tagged ${t}`}
                         >
                           {`${t} (${tagCounts[t]})`}
@@ -128,7 +128,7 @@ export default function ListLayoutWithTags({
                     <article className="space-y-2 flex flex-col xl:space-y-0">
                       <dl>
                         <dt className="sr-only">Published on</dt>
-                        <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                        <dd className="text-base font-medium leading-6 dark:prose-invert">
                           <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                         </dd>
                       </dl>
@@ -141,9 +141,7 @@ export default function ListLayoutWithTags({
                             {tags?.map((tag) => <Tag key={tag} text={tag} />)}
                           </div>
                         </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
+                        <div className="prose max-w-none dark:prose-invert">{summary}</div>
                       </div>
                     </article>
                   </li>

@@ -37,6 +37,13 @@ const projectsData = [
     imgSrc: '/static/images/projects/habit-tracker-project-preview.png',
     href: 'https://habits.rareyes.dev/',
   },
+  {
+    title: 'Character AI Mockup',
+    description: `Practicing recreating an arbitrary design with basic functionality in less than 10 hours.`,
+    badges: ['React', 'TypeScript', 'Vite', 'CSS Modules'],
+    imgSrc: '/static/images/projects/character-ai-project-preview.png',
+    href: 'https://character-ai-dev.netlify.app/',
+  },
 ]
 
 export default projectsData
