@@ -48,7 +48,7 @@ const Card: FC<CardsProps> = ({ title, description, imgSrc, href, badges }) => (
             title
           )}
         </h2>
-        <p className="prose mb-3 max-w-none text-gray-500 dark:text-gray-400">{description}</p>
+        <p className="prose mb-3 max-w-none dark:prose-invert">{description}</p>
         {badges && (
           <div className="mb-3 flex flex-wrap gap-y-2">
             {badges.map((badge) => (
@@ -59,10 +59,10 @@ const Card: FC<CardsProps> = ({ title, description, imgSrc, href, badges }) => (
         {href && (
           <Link
             href={href}
-            className="link-highlighted text-base font-medium leading-6"
+            className="link-highlighted font-medium leading-6"
             aria-label={`Link to ${title}`}
           >
-            Learn more &rarr;
+            See more &rarr;
           </Link>
         )}
       </div>

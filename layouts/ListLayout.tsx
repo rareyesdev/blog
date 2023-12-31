@@ -119,7 +119,7 @@ export default function ListLayout({
                 <article className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                   <dl>
                     <dt className="sr-only">Published on</dt>
-                    <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                    <dd className="text-base font-medium leading-6">
                       <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                     </dd>
                   </dl>
@@ -132,9 +132,7 @@ export default function ListLayout({
                         {tags?.map((tag) => <Tag key={tag} text={tag} />)}
                       </div>
                     </div>
-                    <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                      {summary}
-                    </div>
+                    <div className="prose max-w-none dark:prose-invert">{summary}</div>
                   </div>
                 </article>
               </li>

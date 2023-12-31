@@ -18,11 +18,11 @@ export default function Home({ posts }: HomeProps) {
   return (
     <>
       <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pb-8 pt-6 md:space-y-5">
+        <div className="space-y-8 py-6">
+          <FeaturedQuote featuredQuotesData={featuredQuotesData} />
           <h1 className="text-3xl font-bold leading-9 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
             Latest
           </h1>
-          <FeaturedQuote featuredQuotesData={featuredQuotesData} />
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
@@ -34,7 +34,7 @@ export default function Home({ posts }: HomeProps) {
                   <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
                     <dl>
                       <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                      <dd className="font-medium leading-6">
                         <time dateTime={date}>{formatDate(date, siteMetadata.locale)}</time>
                       </dd>
                     </dl>
@@ -50,11 +50,9 @@ export default function Home({ posts }: HomeProps) {
                             ))}
                           </div>
                         </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
+                        <div className="prose max-w-none dark:prose-invert">{summary}</div>
                       </div>
-                      <div className="text-base font-medium leading-6">
+                      <div className="font-medium leading-6">
                         <Link
                           href={`/blog/${slug}`}
                           className="link-highlighted"

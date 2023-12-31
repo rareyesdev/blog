@@ -15,9 +15,9 @@ export const FeaturedQuote: FC<FeaturedQuoteProps> = ({ featuredQuotesData }) =>
   }, [featuredQuotesData])
 
   return (
-    <blockquote className="text-xl italic font-semibold text-light-foreground-deeper dark:text-dark-foreground-deeper">
+    <blockquote className="text-xl italic font-semibold">
       <svg
-        className="w-8 h-8 text-gray-400 dark:text-gray-600 mb-4"
+        className="w-8 h-8 mb-4"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
