@@ -21,7 +21,7 @@ const Header = () => {
               />
             </div>
             {typeof siteMetadata.headerTitle === 'string' ? (
-              <div className="hidden h-6 text-2xl font-semibold text-light-foreground-deeper dark:text-dark-foreground-deeper sm:block">
+              <div className="hidden h-6 text-2xl font-semibold text-light-foreground-deeper dark:text-dark-foreground-deeper md:block">
                 {siteMetadata.headerTitle}
               </div>
             ) : (
@@ -30,7 +30,7 @@ const Header = () => {
           </div>
         </Link>
       </div>
-      <div className="flex items-center leading-5 space-x-4 sm:space-x-6">
+      <div className="flex items-center leading-5 space-x-6">
         {headerNavLinks
           .filter((link) => link.href !== '/')
           .map((link) => (
