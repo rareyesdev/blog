@@ -57,6 +57,8 @@ module.exports = {
             code: {
               color: theme('colors.light-foreground.deep'),
             },
+            'blockquote p:first-of-type::before': false,
+            'blockquote p:first-of-type::after': false,
           },
         },
         invert: {
