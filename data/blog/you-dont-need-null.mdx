@@ -1,0 +1,183 @@
+---
+title: "You don't need null"
+date: '2022-08-18'
+tags: ['typescript']
+draft: false
+summary: Having two non-values in JavaScript is now considered a design mistake. You are better off using undefined when possible.
+---
+
+## TLDR;
+
+> You don't need `null`. Use `undefined` instead.
+
+- Having two non-values in JavaScript is now considered a design mistake (even by JavaScript's creator, Brendan Eich and [Douglas Crockford](https://www.youtube.com/watch?v=PSGEjv3Tqo0&feature=youtu.be&t=9m21s)).
+- The creator of null pointers Tony Hoare is known for calling his own creation a "billion-dollar mistake". **One nullish value is bad enough.**
+- You get smaller API payloads and less code overall.
+- It will dramatically reduce the amount and complexity of presence checks in the code.
+
+## Counter arguments
+
+### What if I want to define a nullish value intentionally?
+
+In that case, just assign undefined to it:
+
+```typescript
+const anObject = {
+    ...otherObject,
+    propertyToNullify: undefined,
+};
+```
+
+### But what about the semantic differences?
+
+Folks that use it a lot (generally coming from other languages that have null as the only nullish value) get pretty mad about such claims. The most common response I get is:
+
+> null is for intentional missing values, and undefined should be used when the values were never set in the first place.
+
+The first thing I think with responses like that is: Why would you ever need to make that distinction? Both are nullish, and you don't need to differentiate between "intentionally missing" and "unintentionally missing".
+
+```typescript
+const people = [
+    {
+        firstName: "Bernard",
+        middleName: null,
+        lastName: "Roy",
+    },
+    {
+        firstName: "Donald",
+        middleName: "Ervin",
+        lastName: "Knuth",
+    },
+];
+```
+
+But you can just omit `middleName` when the user doesn't have one:
+
+```typescript
+const people = [
+    {
+        firstName: "Bernard",
+        lastName: "Roy",
+    },
+    // ...
+];
+```
+
+Or, you can set `middleName` to an empty string if the user intentionally left that blank and you need to know that:
+
+```typescript
+const people = [
+    {
+        firstName: "Luke",
+        middleName: "",
+        lastName: "Shiru",
+    },
+    // ...
+];
+```
+
+The TypeScript representation would be something like this:
+
+```typescript
+type Person = {
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+};
+```
+
+### But document.querySelector('wrong-selector') returns null
+
+Yes, it does, and it's a pain, but you can easily type it like this instead:
+
+```javascript
+const element = document.querySelector('wrong-selector') ?? undefined;
+```
+
+This prevents `null` from leaking into the rest of the codebase.
+
+### But the API is returning null
+
+- Use an API wrapper. Instead of spreading null all over your codebase, update your surface of contact with the API so nulls are removed.
+- If you have any contact with the folks making the API, propose making API responses smaller by getting rid of null values. You should try to avoid ending up [over-engineering/over-complicating your app](https://dev.to/sargalias/nulls-and-null-checks-how-to-work-safely-with-nulls-in-any-codebase-1oeh) just to deal with null when you can just avoid it altogether.
+
+The **nullish coalescing operator** `??` can be used to convert from null to undefined anywhere a null value is received from an external API.
+
+### But in JSON, at least, I can use null?
+
+In JSON structures undefined cannot be used as that type does not exist. You can hover assign null to a property `{"someProperty": null}`, but why would you do that? If the property `someProperty` has no value, it's better to just exclude that property completely. Keeping such properties just increases the payload size that needs to be sent over the network or stored in a file without actually giving you any extra benefits. If you are thinking that having the explicit property makes it easier to discover, that's what types and schemas are for.
+
+## Action items
+
+### Don't compare to null
+
+If your code base interacts with other APIs that might give you a null then use an `==` check instead of `===`. `value == undefined` will be true for `null` and `undefined` but not for other falsy values (`''`, `false`, `0`).
+
+```javascript
+/// Imaging you are doing `value == undefined` where value can be one of:
+console.log(undefined == undefined); // true
+console.log(null == undefined); // true
+console.log(0 == undefined); // false
+console.log('' == undefined); // false
+console.log(false == undefined); // false
+```
+
+### <a id="ai-2" /> Don’t initialize optional sub-properties
+
+Just don't set it. Your type annotation should have it as optional anyway. Don’t set it to `null` or `undefined`. Just have it as absent:
+
+```typescript
+interface Foo {
+ a: number;
+ b?: number;
+}
+
+// Don't set `b` to anything.
+const foo: Foo = {
+  a: 123
+};
+```
+
+### Arrays (type and value) should never be left uninitialized
+
+Setting any array to undefined will trigger presence checks down the line. Initialize all arrays to empty instead.
+
+### Okay okay, this might make sense, how can I force all my colleagues into submission?
+
+That is not a nice thought, anyhow, ask them nicely and then add the [eslint-plugin-no-null](https://www.npmjs.com/package/eslint-plugin-no-null) plugin to your .eslintrc:
+
+```json
+{
+  "plugins": [
+    "no-null"
+  ],
+  "rules": {
+    "no-null/no-null": 2
+  }
+}
+```
+
+## <a id="exceptions" /> Exceptions
+
+Never use null, unless the ecosystem dictates it. e.g. node style callbacks expect the error argument to be set to null in case of no error. Even then I (and pretty much everyone else) do a truthy check on null and not an explicit one.
+
+```javascript
+fs.readFile('someFile', 'utf8', (err,data) => {
+  if (err) {
+    // do something
+  }
+  // no error
+});
+```
+
+## References
+
+I created this post to have a single place I can reference when I need to revisit this topic. It's based on the following articles and all credit goes to the authors.
+
+- https://dev.to/vangware/you-dont-need-null-3m4n
+- https://2ality.com/2021/01/undefined-null-revisited.html
+- https://writingjavascript.com/why-you-should-always-use-undefined-and-never-null
+- https://basarat.medium.com/null-vs-undefined-in-typescript-land-dc0c7a5f240a
+- https://hamednourhani.gitbooks.io/typescript-book/content/docs/tips/null.html
+- https://blog.devgenius.io/typescript-when-to-use-null-undefined-or-empty-array-d45244ffc565
+- https://github.com/microsoft/TypeScript/issues/9653
