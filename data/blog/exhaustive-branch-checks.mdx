@@ -1,0 +1,138 @@
+---
+title: "Exhaustive branch checks"
+date: '2022-06-21'
+tags: ['typescript']
+draft: false
+summary: When the code is not updated to handle a new discriminant value, a bug is likely to happen. TypeScript can prevent this.
+---
+
+In the scenario in which we need to do some conditional logic based on a discriminant value, we see code like this:
+
+> `calculateRideFare`, `calculateDeliveryFare`, and `calculateFreightFare` are just fake methods that simulate that we are doing different things on each branch.
+
+### Option 1: Uses else clause
+
+```typescript
+const calculateFare1 = (product: Product) => {
+    if (product.type === 'RIDE') {
+        const rideFare = 0; // API call to get the fare.
+        return calculateRideFare(product, rideFare);
+    } else if (product.type === 'FOOD_DELIVERY') {
+        const deliveryFare = 0; // API call to get the fare.
+        return calculateDeliveryFare(product, deliveryFare);
+    } else {
+        const freightFare = 0; // API call to get the fare.
+        return calculateFreightFare(product, freightFare);
+    }
+};
+```
+
+### Option 2: Uses only IF statements and throws.
+
+```typescript
+const calculateFare2 = (product: Product) => {
+    if (product.type === 'RIDE') {
+        const rideFare = 0; // API call to get the fare.
+        return calculateRideFare(product, rideFare);
+    } else if (product.type === 'FOOD_DELIVERY') {
+        const deliveryFare = 0; // API call to get the fare.
+        return calculateDeliveryFare(product, deliveryFare);
+    } else if (product.type === 'ITEM_DELIVERY') {
+        const freightFare = 0; // API call to get the fare.
+        return calculateFreightFare(product, freightFare);
+    }
+
+    throw new Error(`Unhandled product type ${product.type}`);
+};
+```
+
+### Option 3: Uses a switch and improves readability.
+
+```typescript
+const calculateFare3 = (product: Product) => {
+    switch (product.type) {
+        case 'RIDE': {
+            const rideFare = 0; // API call to get the fare.
+            return calculateRideFare(product, rideFare);
+        }
+        case 'FOOD_DELIVERY': {
+            const deliveryFare = 0; // API call to get the fare.
+            return calculateDeliveryFare(product, deliveryFare);
+        }
+        case 'ITEM_DELIVERY': {
+            const freightFare = 0; // API call to get the fare.
+            return calculateFreightFare(product, freightFare);
+        }
+        default:
+            throw new Error(`Unhandled product type ${product.type}`);
+    }
+};
+```
+
+## What happens if later on, we introduce a new product type?
+
+**Option 1** is pretty bad, there is nothing set in place to alert us that some code needs to be updated. In cases like this, we have to start hunting `product.type` all around. Because of the high frequency of this kind of conditional logic, this is the root of many bugs.
+
+**Option 2** and **3** make it a bit easier by throwing an error that will (hopefully) be caught during development as we implement the happy path. There is still a chance that a non-happy path stays outdated (even more if the type is used for more than one application).
+
+## Can we do better?
+
+Ideally, we want to set some restrictions around each use of this discriminant logic so that a new possible value will trigger a type error anywhere the value is being conditionally tested.
+
+We can archive this in TypeScript using an exhaustive switch like this:
+
+### Option 4: Uses an exhaustive switch.
+
+```typescript
+const assertUnreachable = (value: never): never => {
+    throw new Error(`No such case in exhaustive switch: ${value}`);
+}
+
+const calculateFare4 = (product: Product) => {
+    switch (product.type) {
+        case 'RIDE': {
+            const rideFare = 0; // API call to get the fare.
+            return calculateRideFare(product, rideFare);
+        }
+        case 'FOOD_DELIVERY': {
+            const deliveryFare = 0; // API call to get the fare.
+            return calculateDeliveryFare(product, deliveryFare);
+        }
+        case 'ITEM_DELIVERY': {
+            const freightFare = 0; // API call to get the fare.
+            return calculateFreightFare(product, freightFare);
+        }
+        default:
+            return assertUnreachable(product.type);
+    }
+};
+```
+
+When a new `type` is added, TypeScript will complain everywhere and we can easily add new logic to handle the new product type. Another nice benefit of consistently using switch for these cases is that we can easily group logic that requires the same handling:
+
+```typescript
+const calculateFare4 = (product: Product) => {
+    switch (product.type) {
+        case 'RIDE': {
+            const rideFare = 0; // API call to get the fare.
+            return calculateRideFare(product, rideFare);
+        }
+        case 'FOOD_DELIVERY':
+        case 'ITEM_DELIVERY': {
+            const deliveryFare = 0; // API call to get the fare.
+            return calculateDeliveryFare(product, deliveryFare);
+        }
+        default:
+            return assertUnreachable(product.type);
+    }
+};
+```
+
+> You can read more about the `never` type [here](https://www.typescriptlang.org/docs/handbook/basic-types.html#never)
+
+## Other solutions
+
+- [@typescript-eslint/switch-exhaustiveness-check](https://github.com/typescript-eslint/typescript-eslint/blob/9e0f6ddef7cd29f355f398c90f1986e51c4854f7/packages/eslint-plugin/docs/rules/switch-exhaustiveness-check.md#exhaustiveness-checking-in-switch-with-union-type-switch-exhaustiveness-check)
+- Combine a `switch` with [TS Config - No implicit returns](https://www.typescriptlang.org/tsconfig#noImplicitReturns)
+
+For new projects, using the ESLint rule is a no-brainer. However, they may not be available depending on the project configuration. This makes option 4 a good pattern to standardize in the codebase.
