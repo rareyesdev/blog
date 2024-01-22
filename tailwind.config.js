@@ -57,8 +57,18 @@ module.exports = {
             code: {
               color: theme('colors.light-foreground.deep'),
             },
+            // Remove quotes from blockquote tags
             'blockquote p:first-of-type::before': false,
             'blockquote p:first-of-type::after': false,
+            // Remove quotes from inline code tags
+            ':not(pre) > code::before': { content: 'none' },
+            ':not(pre) > code::after': { content: 'none' },
+            // Set box for inline code tags
+            ':not(pre) > code': {
+              padding: '0.125rem 0.250rem',
+              background: 'var(--tw-prose-quote-borders)',
+              borderRadius: '6px',
+            },
           },
         },
         invert: {
