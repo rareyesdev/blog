@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  :root ::selection {
+    @apply bg-primary-300;
+    @apply text-light-foreground-deeper;
+  }
+
   h1 {
     @apply text-light-foreground-deeper dark:text-dark-foreground-deeper;
   }
