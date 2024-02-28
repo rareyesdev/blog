@@ -1,0 +1,54 @@
+---
+title: "How to Design a Good API & Why it Matters - Notes"
+date: '2024-02-27'
+tags: ['design-and-architecture']
+draft: false
+summary: My notes from watching the talk "How to Design a Good API & Why it Matters" by Joshua Bloch
+---
+
+I took these notes while watching the talk [How to Design a Good API & Why it Matters](https://www.infoq.com/presentations/effective-api-design/) by Joshua Bloch. I highly recommend watching it and taking your own notes. These are my thoughts.
+
+### Why is API design important?
+
+**If you program, you are an API designer.** You design APIs for your clients, but you also do it all the time for your colleagues, and yourself. *Thinking in terms of APIs when approaching a programming task improves code quality*. This is because the guidelines for good API design will make you think about the implications of your design decisions. Try to explicitly justify every decision to yourself.
+
+### Characteristics of a good API
+
+- **Hard to misuse**. Easy to do the right thing and hard to do the wrong thing.
+- As small as possible but not smaller. **It should be easy to do simple things and possible to do complex things**.
+
+### Things to consider
+
+**Have at least 3 implementations/callers when designing the API**. You can't get it right if you only use it once or twice. This is especially important when deciding if you should provide some functionality or not. If you don't have the use case yet, then don't, you can always add it later.
+
+**Naming matters**. Avoid abbreviations (they were ok in the 70s but not today). Be consistent, don't use words like *remove* and *delete* interchangeably, pick one and stick to it.
+
+**Private by default**, only expose as needed. This makes it easier to change the implementation later.
+Don't let implementation details leak into the API.
+
+**Fail fast**. Use compile type errors as much as possible (static types, generics). At runtime, fail on the first method possible. Don't wait until a second method is called to complain about data that was processed earlier.
+
+**Avoid return values that require exceptional processing**. For example, always return a zero-length array instead of null.
+
+**Your design should coexist with the platform**. Take advantage of user familiarity with the ecosystem.
+
+**Document religiously**. Even the best APIs can be improved with good documentation. Document arguments, return types, and exceptions. If the programming language allows it, use annotations to document the API.
+
+**Provide programmatic access to everything that is encoded in a string**. If you don't, users will try to parse the string. For example, if you have a `fullName` property it would make sense to expose a way to access the first name and last name instead of letting the user parse the full name.
+
+### More
+- Consider the performance implications of your API design.
+- Minimize mutability.
+- Prefer composition over inheritance.
+- Use consistent parameter ordering.
+
+### API design is a craft
+
+- Don't adhere to the guidelines above slavishly.
+- But don't ignore them without reason.
+- You won't achieve perfection, but you may achieve excellence and that is good enough.
+
+## References
+
+- [Joshua Bloch: How to Design a Good API & Why it Matters](https://www.infoq.com/presentations/effective-api-design/)
+- [Joshua Bloch: Bumper-Sticker API Design](https://www.infoq.com/articles/API-Design-Joshua-Bloch/)
