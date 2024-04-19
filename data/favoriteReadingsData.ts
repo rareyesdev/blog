@@ -44,14 +44,6 @@ const favoriteReadingsData = {
       author: ['Thomas J. Stanley', 'William D. Danko'],
     },
     {
-      title: 'Rich Dad Poor Dad',
-      author: ['Robert Kiyosaki', 'Sharon Lechter'],
-    },
-    {
-      title: 'You Can Negotiate Anything',
-      author: ['Herb Cohen'],
-    },
-    {
       title: 'Cracking the Coding Interview',
       author: ['Gayle Laakmann McDowell'],
     },
