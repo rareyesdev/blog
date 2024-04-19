@@ -54,7 +54,7 @@ const ShelfRow: FC<ShelfRowProps> = ({ color, readings }) => {
           )
 
           return reading.url ? (
-            <Link href={reading.url} target="_blank" rel="noopener noreferrer">
+            <Link key={reading.title} href={reading.url} target="_blank" rel="noopener noreferrer">
               {item}
             </Link>
           ) : (
