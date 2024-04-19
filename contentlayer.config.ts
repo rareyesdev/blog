@@ -23,6 +23,7 @@ import siteMetadata from './data/siteMetadata'
 import { allCoreContent, sortPosts } from 'pliny/utils/contentlayer.js'
 
 import type { Blog as BlogT } from 'contentlayer/generated'
+import { stableStringify } from './utils/stable-stringify'
 
 const root = process.cwd()
 const isProduction = process.env.NODE_ENV === 'production'
@@ -61,7 +62,7 @@ function createTagCount(allBlogs: BlogT[]) {
       })
     }
   })
-  writeFileSync('./app/tag-data.json', JSON.stringify(tagCount))
+  writeFileSync('./app/tag-data.json', stableStringify(tagCount))
 }
 
 function createSearchIndex(allBlogs: BlogT[]) {
