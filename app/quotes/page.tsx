@@ -14,7 +14,7 @@ export default function Page() {
           Quotes
         </h1>
         <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-          This is a list of my favorite quotes.
+          A list of my favorite quotes.
         </p>
       </div>
       <div>
