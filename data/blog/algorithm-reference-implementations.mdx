@@ -1,0 +1,56 @@
+---
+title: 'Algorithm reference implementations'
+date: '2024-12-8'
+tags: ['algorithms']
+draft: true
+summary: Reference implementation of some algorithms and data structures.
+---
+
+## Fenwick Tree
+
+- [Explanation and visualization](https://www.youtube.com/watch?v=uSFzHCZ4E-8)
+- Practice: [LeetCode 307. Range Sum Query - Mutable](https://leetcode.com/problems/range-sum-query-mutable/)
+
+```typescript
+class FenwickTree {
+  nums: number[]
+  bit: number[]
+
+  constructor(nums: number[]) {
+    this.nums = nums
+    this.bit = Array(nums.length + 1)
+
+    for (let i = 1; i <= nums.length; ++i) {
+      this.bit[i] = nums[i - 1]
+    }
+
+    for (let i = 1; i < this.bit.length; ++i) {
+      const p = i + (i & -i)
+      if (p < this.bit.length) {
+        this.bit[p] += this.bit[i]
+      }
+    }
+  }
+
+  update(index: number, val: number): void {
+    const d = val - this.nums[index]
+    this.nums[index] = val
+    for (let i = index + 1; i < this.bit.length; i += i & -i) {
+      this.bit[i] += d
+    }
+  }
+
+  sumRange(left: number, right: number): number {
+    return this.query(right + 1) - this.query(left)
+  }
+
+  private query(index: number) {
+    let sum = 0
+    while (index > 0) {
+      sum += this.bit[index]
+      index -= index & -index
+    }
+    return sum
+  }
+}
+```
