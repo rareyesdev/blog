@@ -1,10 +1,12 @@
-import { writeFileSync, mkdirSync } from 'fs'
+import { writeFileSync, mkdirSync, readFileSync } from 'fs'
 import path from 'path'
 import { slug } from 'github-slugger'
 import { escape } from 'pliny/utils/htmlEscaper.js'
 import siteMetadata from '../data/siteMetadata.js'
-import tagData from '../app/tag-data.json' assert { type: 'json' }
-import { allBlogs } from '../.contentlayer/generated/index.mjs'
+import { allBlogs } from '../utils/mdx.js'
+
+// Read tag data using standard JSON parsing
+const tagData = JSON.parse(readFileSync('./app/tag-data.json', 'utf8'))
 
 const generateRssItem = (config, post) => `
   <item>
@@ -53,8 +55,9 @@ async function generateRSS(config, allBlogs, page = 'feed.xml') {
   }
 }
 
-const rss = () => {
-  generateRSS(siteMetadata, allBlogs)
+const rss = async () => {
+  const blogs = await allBlogs()
+  generateRSS(siteMetadata, blogs)
   console.log('RSS feed generated...')
 }
 export default rss

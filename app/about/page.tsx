@@ -1,20 +1,23 @@
-import { Authors, allAuthors } from 'contentlayer/generated'
-import { MDXLayoutRenderer } from 'pliny/mdx-components'
+import { Authors, allAuthors } from '@/utils/mdx'
 import AuthorLayout from '@/layouts/AuthorLayout'
-import { coreContent } from 'pliny/utils/contentlayer'
+import { coreContent } from '@/utils/mdx'
 import { genPageMetadata } from 'app/seo'
-import { components } from '@/components/MDXComponents'
+import SimpleMarkdownRenderer from '@/components/SimpleMarkdownRenderer'
 
 export const metadata = genPageMetadata({ title: 'About' })
 
-export default function Page() {
-  const author = allAuthors.find((p) => p.slug === 'default') as Authors
+export default async function Page() {
+  const authors = await allAuthors()
+  const author = authors.find((p) => p.slug === 'default') as Authors
   const mainContent = coreContent(author)
 
   return (
     <>
       <AuthorLayout content={mainContent}>
-        <MDXLayoutRenderer code={author.body.code} components={components} />
+        <SimpleMarkdownRenderer
+          content={author.body.raw}
+          className="prose max-w-none dark:prose-invert"
+        />
       </AuthorLayout>
     </>
   )
