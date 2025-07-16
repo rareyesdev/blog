@@ -1,0 +1,177 @@
+---
+title: 'Fenwick Tree'
+date: '2024-12-8'
+tags: ['data-structures']
+draft: true
+summary: Fenwick Tree reference implementation with links to explanation and practice problems.
+---
+
+- [Explanation and visualization](https://www.youtube.com/watch?v=uSFzHCZ4E-8)
+- Practice problem: [LeetCode 307. Range Sum Query - Mutable](https://leetcode.com/problems/range-sum-query-mutable/)
+- [More problems](https://leetcode.com/problemset/algorithms/?topicSlugs=binary-indexed-tree&page=1)
+
+```typescript:TypeScript
+class FenwickTree {
+  nums: number[]
+  bit: number[]
+
+  constructor(nums: number[]) {
+    this.nums = nums
+    this.bit = Array(nums.length + 1)
+
+    for (let i = 1; i <= nums.length; ++i) {
+      this.bit[i] = nums[i - 1]
+    }
+
+    for (let i = 1; i < this.bit.length; ++i) {
+      const p = i + (i & -i)
+      if (p < this.bit.length) {
+        this.bit[p] += this.bit[i]
+      }
+    }
+  }
+
+  update(index: number, val: number): void {
+    const d = val - this.nums[index]
+    this.nums[index] = val
+    for (let i = index + 1; i < this.bit.length; i += i & -i) {
+      this.bit[i] += d
+    }
+  }
+
+  sumRange(left: number, right: number): number {
+    return this.query(right + 1) - this.query(left)
+  }
+
+  private query(index: number) {
+    let sum = 0
+    while (index > 0) {
+      sum += this.bit[index]
+      index -= index & -index
+    }
+    return sum
+  }
+}
+```
+
+## My Pascal implementation from 2008
+
+```pascal
+program abi;
+
+var fe,fs:text;
+    tot,num,i,pos,ini,fin,up,down:integer;
+    l:array[0..1000] of integer;
+
+begin
+  assign(fe,'d.in'); reset(fe);
+
+  readln(fe,tot);
+
+  for i:=1 to tot do
+  begin
+    read(fe,num); pos:=i;
+
+    while pos <= tot do
+    begin
+      l[pos]:=l[pos]+num;
+      pos:=pos+pos and -pos;
+    end;
+  end;
+
+  assign(fs,'d.out'); rewrite(fs);
+
+  while not eof(fe) do
+  begin
+    up:=0; down:=0;
+    readln(fe,ini,fin); pos:=fin;
+
+    while pos > 0 do
+    begin
+      up:=up+l[pos];
+      pos:=pos-pos and -pos;
+    end;
+
+    pos:=ini-1;
+
+    while pos > 0 do
+    begin
+      down:=down+l[pos];
+      pos:=pos-pos and -pos;
+    end;
+
+    writeln(fs,up-down);
+  end;
+
+  close(fe); close(fs);
+end.
+```
+
+2D version
+
+```pascal
+program abi_2d;
+
+var fe, fs : text;
+    n, c, i, j, ii, jj, i1, j1, i2, j2, cant : byte;
+    v, sol : integer;
+    m : array[0..100,0..100] of integer;
+
+function value(i, j : byte) : integer;
+var cant : integer;
+begin
+  cant := 0;
+  ii := i;
+  while ii > 0 do
+  begin
+    jj := j;
+    while jj > 0 do
+    begin
+      inc(cant,m[ii][jj]); dec(jj,jj  and -jj); {-lowbit}
+    end;
+    dec(ii,ii and -ii); {-lowbit}
+  end;
+  value := cant;
+end;
+
+begin
+  assign(fe,'d.in'); reset(fe);
+  readln(fe,n,c);
+
+  {procesing}
+
+  for i := 1 to n do
+  begin
+    for j := 1 to c do
+    begin
+      read(fe,v);
+      ii := i;
+      while ii <= n do
+      begin
+        jj := j;
+        while jj <= c do
+	      begin
+	        inc(m[ii][jj],v); inc(jj,jj and -jj);{+lowbit}
+	      end;
+        inc(ii,ii and -ii);{+lowbit}
+      end;
+    end;
+
+    readln(fe);
+  end;
+
+  {querying}
+
+  readln(fe,cant);
+  assign(fs,'d.out'); rewrite(fs);
+
+  for i := 1 to cant do
+  begin
+    readln(fe,i1,j1,i2,j2);
+    sol := value(i2,j2) - value(i1 - 1,j2) - value(i2,j1 - 1) + value(i1-1,j1-1);
+    writeln(fs,sol);
+  end;
+
+  close(fs);
+end.
+```

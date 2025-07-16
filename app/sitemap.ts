@@ -1,15 +1,16 @@
-import { MetadataRoute } from 'next'
-import { allBlogs } from 'contentlayer/generated'
+import { allBlogs } from '@/utils/mdx'
 import siteMetadata from '@/data/siteMetadata'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap() {
   const siteUrl = siteMetadata.siteUrl
-  const blogRoutes = allBlogs.map((post) => ({
+  const blogs = await allBlogs()
+
+  const blogRoutes = blogs.map((post) => ({
     url: `${siteUrl}/${post.path}`,
     lastModified: post.lastmod || post.date,
   }))
 
-  const routes = ['', 'blog', 'projects', 'tags', 'readings', 'quotes', 'about'].map((route) => ({
+  const routes = ['', 'blog', 'projects', 'tags'].map((route) => ({
     url: `${siteUrl}/${route}`,
     lastModified: new Date().toISOString().split('T')[0],
   }))

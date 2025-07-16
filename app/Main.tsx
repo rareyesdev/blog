@@ -4,14 +4,13 @@ import siteMetadata from '@/data/siteMetadata'
 import featuredQuotesData from '@/data/featuredQuotesData'
 import { formatDate } from 'pliny/utils/formatDate'
 import NewsletterForm from 'pliny/ui/NewsletterForm'
-import { CoreContent } from 'pliny/utils/contentlayer'
-import { Blog } from '../.contentlayer/generated'
+import { Blog } from '@/utils/mdx'
 import { FeaturedQuote } from './featured-quote'
 
 const MAX_DISPLAY = 5
 
 type HomeProps = {
-  posts: CoreContent<Blog>[]
+  posts: Omit<Blog, 'body'>[]
 }
 
 export default function Home({ posts }: HomeProps) {

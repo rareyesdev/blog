@@ -1,0 +1,224 @@
+---
+title: 'Priority Queue'
+date: '2024-12-8'
+tags: ['data-structures']
+draft: true
+summary: Priority Queue reference implementation with an example problem.
+---
+
+- Practice problem: [LeetCode 1642. Furthest Building You Can Reach](https://leetcode.com/problems/furthest-building-you-can-reach/)
+
+```typescript:TypeScript
+type ComparatorFn<T> = (x: T, y: T) => number;
+
+class PriorityQueue<T> {
+  private tree: (T | undefined)[];
+  private nodeCount: number;
+  private comparator: ComparatorFn<T>;
+
+  constructor(size: number, comparator: ComparatorFn<T>) {
+    this.comparator = comparator;
+    this.nodeCount = 0;
+    this.tree = this.initializeTree(size);
+  }
+
+  push(item: T) {
+    if (this.nodeCount < this.tree.length) {
+      this.tree[this.nodeCount] = item;
+    } else {
+      this.tree.push(item);
+    }
+    this.shiftUp(this.nodeCount);
+    ++this.nodeCount;
+  }
+
+  pop() {
+    if (!this.nodeCount) {
+      return undefined;
+    }
+
+    const top = this.tree[0];
+
+    --this.nodeCount;
+
+    if (this.nodeCount >= 1) {
+      this.tree[0] = this.tree[this.nodeCount];
+      this.tree[this.nodeCount] = undefined;
+      this.shiftDown(0);
+    } else {
+      this.tree[0] = undefined;
+    }
+
+    return top;
+  }
+
+  top() {
+    return this.tree[0];
+  }
+
+  empty() {
+    return this.nodeCount === 0;
+  }
+
+  count() {
+    return this.nodeCount;
+  }
+
+  private initializeTree(initialSize: number) {
+    let allocatedSize = 1;
+    while (allocatedSize < initialSize) {
+      allocatedSize <<= 1;
+    }
+    return Array(allocatedSize);
+  }
+
+  private shiftUp(index: number) {
+    while (true) {
+      const parentIndex = this.parentIndex(index);
+
+      if (
+        parentIndex === undefined ||
+        this.compareIndexes(parentIndex, index) >= 0
+      ) {
+        break;
+      }
+
+      this.swapIndexes(parentIndex, index);
+      index = parentIndex;
+    }
+  }
+
+  private shiftDown(index: number) {
+    while (true) {
+      const highPriorityChildrenIndex = this.highPriorityChildrenIndex(index);
+
+      if (
+        highPriorityChildrenIndex === undefined ||
+        this.compareIndexes(index, highPriorityChildrenIndex) >= 0
+      ) {
+        break;
+      }
+
+      this.swapIndexes(highPriorityChildrenIndex, index);
+      index = highPriorityChildrenIndex;
+    }
+  }
+
+  private swapIndexes(index1: number, index2: number) {
+    const temp = this.tree[index1];
+    this.tree[index1] = this.tree[index2];
+    this.tree[index2] = temp;
+  }
+
+  private compareIndexes(index1: number, index2: number) {
+    return this.comparator(this.tree[index1]!, this.tree[index2]!);
+  }
+
+  private highPriorityChildrenIndex(index: number) {
+    const index1 = (index << 1) + 1;
+    const index2 = (index << 1) + 2;
+    if (index1 >= this.nodeCount) {
+      return undefined;
+    }
+    if (index2 >= this.nodeCount) {
+      return index1;
+    }
+    const value = this.comparator(this.tree[index1]!, this.tree[index2]!);
+    return value > 0 ? index1 : index2;
+  }
+
+  private parentIndex(index: number) {
+    if (index > 0) {
+      return (index - 1) >> 1;
+    }
+    return undefined;
+  }
+}
+```
+
+## My implementation from 2007
+
+I implemented a priority queue for the first time while learning the Heapsort algorithm.
+
+```pascal:Pascal
+{$B-,I-,Q-,R-,S-}
+const ent='d.in';
+      sal='d.out';
+var fe,fs:text;
+    buf:array[1..4085] of char;
+    dat,fin,nodo,t,l_son,r_son:longint;
+    l:array[0..10000] of longint;
+
+procedure closed;
+ begin
+  close(fe);
+  close(fs);
+ end;
+
+function min:longint;
+ begin
+  l_son:=nodo shl 1;
+  r_son:=(nodo shl 1)+1;
+  if l[l_son] > l[r_son] then min:=r_son else min:=l_son;
+ end;
+
+procedure shiftdown;
+var retorno,i,son:longint;
+ begin
+  for i:=fin downto 1 do
+   begin
+    retorno:=l[1];
+    l[1]:=l[i];
+    l[i]:=maxlongint;
+    nodo:=1;
+    son:=min;
+    while (l[nodo]>l[son]) and (son<i) do
+     begin
+      t:=l[nodo];
+      l[nodo]:=l[son];
+      l[son]:=t;
+      nodo:=son;
+      son:=min;
+     end;
+    write(fs,retorno,' ');
+   end;
+ end;
+
+procedure heapfy;
+ begin
+  l[fin]:=dat;
+  nodo:=fin;
+  while l[nodo shr 1]>l[nodo] do
+   begin
+    t:=l[nodo];
+    l[nodo]:=l[nodo shr 1];
+    l[nodo shr 1]:=t;
+    nodo:=nodo shr 1;
+   end;
+ end;
+
+procedure readdata;
+ begin
+  while not eof(fe) do
+   begin
+    fin:=fin+1;
+    read(fe,dat);
+    heapfy;
+   end;
+ end;
+
+procedure init;
+ begin
+  assign(fe,ent);
+  settextbuf(fe,buf);
+  reset(fe);
+  assign(fs,sal); rewrite(fs);
+ end;
+
+begin
+ init;
+ readdata;
+ shiftdown;
+ closed;
+end.
+```
