@@ -182,8 +182,8 @@ export function sortPosts(posts) {
 }
 
 export function allCoreContent(posts) {
-  return posts.map(post => {
-    const { body, ...coreContent } = post
+  return posts.map((post) => {
+    const { body, ...coreContent } = post // eslint-disable-line no-unused-vars
     return coreContent
   })
 }
@@ -192,7 +192,7 @@ export function coreContent(item) {
   if (!item) {
     return null
   }
-  const { body, ...core } = item
+  const { body, ...core } = item // eslint-disable-line no-unused-vars
   return core
 }
 
@@ -201,7 +201,10 @@ export function createTagCount(allBlogs) {
   const tagCount = {}
 
   allBlogs.forEach((blog) => {
-    if (blog.tags && (!process.env.NODE_ENV || process.env.NODE_ENV !== 'production' || blog.draft !== true)) {
+    if (
+      blog.tags &&
+      (!process.env.NODE_ENV || process.env.NODE_ENV !== 'production' || blog.draft !== true)
+    ) {
       blog.tags.forEach((tag) => {
         const formattedTag = slug(tag)
         if (formattedTag in tagCount) {
@@ -216,20 +219,70 @@ export function createTagCount(allBlogs) {
   return tagCount
 }
 
-// Cache for performance
+// Cache for performance with file-based invalidation
 let blogCache = null
 let authorsCache = null
+let blogCacheTimestamp = null
+let authorsCacheTimestamp = null
+
+// Check if blog directory has been modified since last cache
+function isBlogCacheStale() {
+  if (!blogCache || !blogCacheTimestamp) return true
+
+  try {
+    const blogDir = path.join(process.cwd(), 'data', 'blog')
+    const stats = fs.statSync(blogDir)
+    return stats.mtime.getTime() > blogCacheTimestamp
+  } catch {
+    return true
+  }
+}
+
+// Check if authors directory has been modified since last cache
+function isAuthorsCacheStale() {
+  if (!authorsCache || !authorsCacheTimestamp) return true
+
+  try {
+    const authorsDir = path.join(process.cwd(), 'data', 'authors')
+    const stats = fs.statSync(authorsDir)
+    return stats.mtime.getTime() > authorsCacheTimestamp
+  } catch {
+    return true
+  }
+}
 
 export const allBlogs = async () => {
-  if (!blogCache) {
-    blogCache = await getAllBlogs()
+  // In production, use simple caching
+  if (process.env.NODE_ENV === 'production') {
+    if (!blogCache) {
+      blogCache = await getAllBlogs()
+    }
+    return blogCache
   }
+
+  // In development, use timestamp-based cache invalidation
+  if (isBlogCacheStale()) {
+    blogCache = await getAllBlogs()
+    blogCacheTimestamp = Date.now()
+  }
+
   return blogCache
 }
 
 export const allAuthors = async () => {
-  if (!authorsCache) {
-    authorsCache = await getAllAuthors()
+  // In production, use simple caching
+  if (process.env.NODE_ENV === 'production') {
+    if (!authorsCache) {
+      authorsCache = await getAllAuthors()
+    }
+    return authorsCache
   }
+
+  // In development, use timestamp-based cache invalidation
+  if (isAuthorsCacheStale()) {
+    authorsCache = await getAllAuthors()
+    authorsCacheTimestamp = Date.now()
+  }
+
   return authorsCache
 }

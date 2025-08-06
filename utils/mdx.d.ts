@@ -32,6 +32,7 @@ export interface Blog {
     raw: string
     code: string
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   structuredData: any
 }
 

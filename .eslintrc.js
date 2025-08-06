@@ -1,6 +1,5 @@
 module.exports = {
   root: true,
-  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
     amd: true,
@@ -10,17 +9,25 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended',
     'next',
     'next/core-web-vitals',
   ],
-  parserOptions: {
-    project: true,
-    tsconfigRootDir: __dirname,
-  },
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      extends: [
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended',
+      ],
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
+  ],
   rules: {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',

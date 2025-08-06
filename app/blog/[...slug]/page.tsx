@@ -1,7 +1,6 @@
 import 'css/prism.css'
 
 import PageTitle from '@/components/PageTitle'
-import { components } from '@/components/MDXComponents'
 import { sortPosts, coreContent, allCoreContent, allBlogs, allAuthors } from '@/utils/mdx'
 import type { Authors, Blog } from '@/utils/mdx'
 import PostSimple from '@/layouts/PostSimple'
