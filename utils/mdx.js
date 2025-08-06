@@ -139,6 +139,10 @@ export async function getAllBlogs() {
   for (const file of mdxFiles) {
     const parsed = await parseMDXFile(file, contentDir)
     if (parsed && parsed.type === 'Blog') {
+      // Filter out draft posts in production
+      if (process.env.NODE_ENV === 'production' && parsed.draft === true) {
+        continue
+      }
       blogs.push(parsed)
     }
   }
