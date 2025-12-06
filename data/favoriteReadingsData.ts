@@ -20,14 +20,6 @@ const favoriteReadingsData = {
       title: 'The Humble Programmer',
       author: ['Edsger W. Dijkstra'],
     },
-    {
-      title: "You Don't Know JS",
-      author: ['Kyle Simpson'],
-    },
-    {
-      title: 'How to Win Friends and Influence People',
-      author: ['Dale Carnegie'],
-    },
   ],
   silver: [
     {
@@ -43,15 +35,15 @@ const favoriteReadingsData = {
       title: "The Millionaire Next Door: The Surprising Secrets of America's Rich",
       author: ['Thomas J. Stanley', 'William D. Danko'],
     },
-    {
-      title: 'Cracking the Coding Interview',
-      author: ['Gayle Laakmann McDowell'],
-    },
   ],
   bronze: [
     {
       title: 'Predictably Irrational',
       author: ['Dan Ariely'],
+    },
+    {
+      title: 'How to Win Friends and Influence People',
+      author: ['Dale Carnegie'],
     },
     {
       title: 'The Pragmatic Programmer',
@@ -60,6 +52,14 @@ const favoriteReadingsData = {
     {
       title: '97 Things Every Programmer Should Know: Collective Wisdom from the Experts',
       author: ['Kevlin Henney'],
+    },
+    {
+      title: "You Don't Know JS",
+      author: ['Kyle Simpson'],
+    },
+    {
+      title: 'Cracking the Coding Interview',
+      author: ['Gayle Laakmann McDowell'],
     },
   ],
 }
