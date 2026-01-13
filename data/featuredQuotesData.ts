@@ -39,6 +39,10 @@ const featuredQuotesData = [
       "Perfect may be the enemy of good, but it can also be the friend of better. Perfection is debilitating when we see it as a target that we failed to reach. It's motivating when we recognize it as an ideal that's worth striving for even though it can't be reached",
   },
   {
+    quote: 'Perfection is not attainable or affordable. Excellence is',
+    author: 'David Keighley',
+  },
+  {
     quote: 'Never attribute to malice that which is adequately explained by stupidity',
   },
   {
