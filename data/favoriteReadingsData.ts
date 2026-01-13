@@ -4,17 +4,17 @@ const favoriteReadingsData = {
       title: '12 Rules for Life',
       author: ['Jordan B. Peterson'],
     },
-    {
-      title: 'Code Complete (2nd Edition)',
-    },
-    {
-      title: 'The DevOps Handbook',
-    },
   ],
   gold: [
     {
       title: 'Meditations',
       author: ['Marcus Aurelius'],
+    },
+    {
+      title: 'Code Complete (2nd Edition)',
+    },
+    {
+      title: 'The DevOps Handbook',
     },
     {
       title: 'The Humble Programmer',
@@ -44,22 +44,6 @@ const favoriteReadingsData = {
     {
       title: 'How to Win Friends and Influence People',
       author: ['Dale Carnegie'],
-    },
-    {
-      title: 'The Pragmatic Programmer',
-      author: ['Andy Hunt', 'Dave Thomas'],
-    },
-    {
-      title: '97 Things Every Programmer Should Know: Collective Wisdom from the Experts',
-      author: ['Kevlin Henney'],
-    },
-    {
-      title: "You Don't Know JS",
-      author: ['Kyle Simpson'],
-    },
-    {
-      title: 'Cracking the Coding Interview',
-      author: ['Gayle Laakmann McDowell'],
     },
   ],
 }
