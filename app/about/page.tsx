@@ -10,12 +10,14 @@ export default async function Page() {
   const authors = await allAuthors()
   const author = authors.find((p) => p.slug === 'default') as Authors
   const mainContent = coreContent(author)
+  const yearsOfExperience = new Date().getFullYear() - 2015
+  const aboutContent = author.body.raw.replace('{{yearsOfExperience}}', String(yearsOfExperience))
 
   return (
     <>
       <AuthorLayout content={mainContent}>
         <SimpleMarkdownRenderer
-          content={author.body.raw}
+          content={aboutContent}
           className="prose max-w-none dark:prose-invert"
         />
       </AuthorLayout>
